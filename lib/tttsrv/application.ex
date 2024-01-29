@@ -9,11 +9,8 @@ defmodule Tttsrv.Application do
   def start(_type, _args) do
     children = [
       TttsrvWeb.Telemetry,
-      Tttsrv.Repo,
       {DNSCluster, query: Application.get_env(:tttsrv, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Tttsrv.PubSub},
-      # Start the Finch HTTP client for sending emails
-      {Finch, name: Tttsrv.Finch},
       # Start a worker by calling: Tttsrv.Worker.start_link(arg)
       # {Tttsrv.Worker, arg},
       # Start to serve requests, typically the last entry

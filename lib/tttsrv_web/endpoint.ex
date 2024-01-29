@@ -7,7 +7,7 @@ defmodule TttsrvWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_tttsrv_key",
-    signing_salt: "KIG0hQ61",
+    signing_salt: "bZLolm61",
     same_site: "Lax"
   ]
 
@@ -26,10 +26,7 @@ defmodule TttsrvWeb.Endpoint do
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
-    socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
-    plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :tttsrv
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,

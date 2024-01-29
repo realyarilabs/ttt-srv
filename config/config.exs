@@ -8,7 +8,6 @@
 import Config
 
 config :tttsrv,
-  ecto_repos: [Tttsrv.Repo],
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
@@ -16,42 +15,11 @@ config :tttsrv, TttsrvWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Phoenix.Endpoint.Cowboy2Adapter,
   render_errors: [
-    formats: [html: TttsrvWeb.ErrorHTML, json: TttsrvWeb.ErrorJSON],
+    formats: [json: TttsrvWeb.ErrorJSON],
     layout: false
   ],
   pubsub_server: Tttsrv.PubSub,
-  live_view: [signing_salt: "1qnOgcy5"]
-
-# Configures the mailer
-#
-# By default it uses the "Local" adapter which stores the emails
-# locally. You can see the emails in your browser, at "/dev/mailbox".
-#
-# For production it's recommended to configure a different adapter
-# at the `config/runtime.exs`.
-config :tttsrv, Tttsrv.Mailer, adapter: Swoosh.Adapters.Local
-
-# Configure esbuild (the version is required)
-config :esbuild,
-  version: "0.17.11",
-  default: [
-    args:
-      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
-    cd: Path.expand("../assets", __DIR__),
-    env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
-  ]
-
-# Configure tailwind (the version is required)
-config :tailwind,
-  version: "3.3.2",
-  default: [
-    args: ~w(
-      --config=tailwind.config.js
-      --input=css/app.css
-      --output=../priv/static/assets/app.css
-    ),
-    cd: Path.expand("../assets", __DIR__)
-  ]
+  live_view: [signing_salt: "etgQSKK8"]
 
 # Configures Elixir's Logger
 config :logger, :console,
