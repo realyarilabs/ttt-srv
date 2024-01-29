@@ -14,6 +14,14 @@ defmodule Tttsrv.Application do
       # Start a worker by calling: Tttsrv.Worker.start_link(arg)
       # {Tttsrv.Worker, arg},
       # Start to serve requests, typically the last entry
+
+      # Starts the Registry to register the game servers for the TicTacToe game
+
+      {Registry, keys: :unique, name: Tttsrv.GameRegistry},
+
+      # starts the game manager that orchestrates the gameservers
+
+      TttsrvWeb.GameManager,
       TttsrvWeb.Endpoint
     ]
 
