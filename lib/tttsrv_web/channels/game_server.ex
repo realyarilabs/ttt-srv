@@ -78,7 +78,7 @@ defmodule TttsrvWeb.GameServer do
         new_state = %{state | players: Map.put(state.players, "X", user_id)}
         {:ok, new_state}
 
-      state.players["O"] == nil ->
+      state.players["O"] == nil and state.players["X"] !== user_id ->
         new_state = %{state | players: Map.put(state.players, "O", user_id)}
 
         {:ok,
