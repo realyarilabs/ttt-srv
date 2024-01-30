@@ -48,6 +48,15 @@ if config_env() == :prod do
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: port
     ],
+    # ignores origin when connecting via websockets
+    check_origin: false,
+    # check_origin: [
+    #   "//127.0.0.1",
+    #   "//localhost",
+    #   "//*.mydharma.network",
+    #   "//*.surge.sh",
+    #   "//*.netlify.app"
+    # ],
     secret_key_base: secret_key_base
 
   # ## SSL Support
