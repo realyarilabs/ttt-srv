@@ -34,6 +34,7 @@ defmodule Tttsrv.MixProject do
     [
       {:phoenix, "~> 1.7.10"},
       {:phoenix_live_dashboard, "~> 0.8.2"},
+      {:slipstream, "~> 1.1"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.20"},
