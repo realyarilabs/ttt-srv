@@ -1,6 +1,6 @@
 defmodule TttsrvWeb.Validate do
   def position(state, x, y) do
-    if x >= 0 and x <= 2 and y >= 0 and y <= 2 and state.board[x][y] == "" do
+    if x >= 0 and x <= 2 and y >= 0 and y <= 2 and Enum.at(Enum.at(state.board, x), y) == "" do
       :ok
     else
       {:error, :invalid_position}

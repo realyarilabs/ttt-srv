@@ -7,10 +7,25 @@ defmodule TttsrvWeb.Helpers do
     end
   end
 
+  def get_opponent(state, user_id) do
+    cond do
+      state.players["X"] == user_id -> {:ok, state.players["O"]}
+      state.players["O"] == user_id -> {:ok, state.players["X"]}
+      true -> {:error, :not_a_player}
+    end
+  end
+
+  defp get_player_by_symbol(symbol, state) do
+    case symbol do
+      "X" -> state.players["X"]
+      "O" -> state.players["O"]
+    end
+  end
+
   def next_player(state) do
     cond do
-      state.current_player == state.players["X"] -> state.players["O"]
-      state.current_player == state.players["O"] -> state.players["X"]
+      state.current_player == state.players["X"] -> %{state | current_player: state.players["O"]}
+      state.current_player == state.players["O"] -> %{state | current_player: state.players["X"]}
     end
   end
 
@@ -30,16 +45,17 @@ defmodule TttsrvWeb.Helpers do
 
     winning_symbol =
       Enum.find_value(winning_combinations, fn [[x1, y1], [x2, y2], [x3, y3]] ->
-        if board[x1][y1] != "" && board[x1][y1] == board[x2][y2] &&
-             board[x1][y1] == board[x3][y3] do
-          board[x1][y1]
+        if Enum.at(board, x1) |> Enum.at(y1) != "" &&
+             Enum.at(board, x1) |> Enum.at(y1) == Enum.at(board, x2) |> Enum.at(y2) &&
+             Enum.at(board, x1) |> Enum.at(y1) == Enum.at(board, x3) |> Enum.at(y3) do
+          Enum.at(board, x1) |> Enum.at(y1) |> get_player_by_symbol(state)
         end
       end)
 
     if winning_symbol do
-      {:ok, %{state | winner: winning_symbol, status: "game_over"}}
+      %{state | winner: winning_symbol, status: "game_over"}
     else
-      {:ok, state}
+      state
     end
   end
 end

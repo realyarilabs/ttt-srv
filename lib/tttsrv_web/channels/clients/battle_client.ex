@@ -4,9 +4,10 @@ defmodule TttsrvWeb.Clients.BattleClient do
 
   """
 
-  @topic "games:battles:1"
-
   use Slipstream
+  require Logger
+
+  @topic "games:battles:1"
 
   def start_link(config, name \\ nil) do
     Slipstream.start_link(__MODULE__, config, name: name)
@@ -20,8 +21,22 @@ defmodule TttsrvWeb.Clients.BattleClient do
 
   def move(pid, x, y) do
     socket = GenServer.call(pid, :get_socket)
+
     {:ok, _ref} = Slipstream.push(socket, @topic, "move", %{"x" => x, "y" => y})
     socket
+  end
+
+  def get_state(pid) do
+    socket = GenServer.call(pid, :get_socket)
+
+    {:ok, _ref} = Slipstream.push(socket, @topic, "request_game_state", %{})
+  end
+
+  @impl Slipstream
+  def handle_message(@topic, event, payload, socket) do
+    Logger.info("Event: #{inspect(event)} Payload: #{inspect(payload, pretty: true)}")
+
+    {:ok, socket}
   end
 
   @impl Slipstream

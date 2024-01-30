@@ -17,7 +17,7 @@ defmodule Tttsrv.Application do
 
       # Starts the Registry to register the game servers for the TicTacToe game
 
-      {Registry, keys: :unique, name: Tttsrv.GameRegistry},
+      {Registry, keys: :unique, name: TttsrvWeb.GameRegistry},
 
       # starts the game manager that orchestrates the gameservers
 

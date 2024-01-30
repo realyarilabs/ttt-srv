@@ -1,7 +1,7 @@
 defmodule TttsrvWeb.UserSocket do
   use Phoenix.Socket
 
-  channel "games:battles:*", Immortals.BattlesChannel
+  channel "games:battles:*", TttsrvWeb.BattlesChannel
   # A Socket handler
   #
   # It's possible to control the websocket connection and
@@ -35,9 +35,12 @@ defmodule TttsrvWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   @impl true
-  def connect(_params, socket, _connect_info) do
-    {:ok, socket}
+  @spec connect(any, Phoenix.Socket.t(), any) :: {:ok, Phoenix.Socket.t()}
+  def connect(%{"user_id" => user_id}, socket, _connect_info) do
+    {:ok, assign(socket, :user_id, user_id)}
   end
+
+  def connect(_params, _socket, _connect_info), do: :error
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
   #
@@ -50,5 +53,6 @@ defmodule TttsrvWeb.UserSocket do
   #
   # Returning `nil` makes this socket anonymous.
   @impl true
-  def id(_socket), do: nil
+  @spec id(Phoenix.Socket.t()) :: String.t()
+  def id(socket), do: "user_socket:#{socket.assigns.user_id}"
 end

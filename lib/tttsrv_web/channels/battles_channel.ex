@@ -6,6 +6,7 @@ defmodule TttsrvWeb.BattlesChannel do
 
   def join("games:battles:" <> game_id, _params, socket) do
     GameManager.start_game(game_id)
+    Logger.info("Joining game #{game_id}")
 
     case GameServer.add_player(game_id, socket.assigns.user_id) do
       {:ok, updated_game_state} ->
@@ -32,7 +33,7 @@ defmodule TttsrvWeb.BattlesChannel do
 
         send(self(), {:game_state_updated, game_id})
 
-        {:reply, {:ok, updated_game_state}, socket}
+        {:noreply, assign(socket, :game, updated_game_state)}
 
       {:error, reason} ->
         Logger.info(inspect(reason), pretty: true)
