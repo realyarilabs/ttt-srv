@@ -3,8 +3,15 @@ defmodule TttsrvWeb.Clients.Simulation do
   @user_id_1 "user_1"
   @user_id_2 "user_2"
 
-  @client_config_1 [uri: "ws://localhost:4000/socket/websocket?user_id=#{@user_id_1}"]
-  @client_config_2 [uri: "ws://localhost:4000/socket/websocket?user_id=#{@user_id_2}"]
+  @client_config_1 [
+    uri: "wss://ttt-srv-wispy-dream-6800.fly.dev/socket/websocket?user_id=#{@user_id_1}"
+  ]
+  @client_config_2 [
+    uri: "wss://ttt-srv-wispy-dream-6800.fly.dev/socket/websocket?user_id=#{@user_id_2}"
+  ]
+
+  # @client_config_1 [uri: "ws://localhost:4000/socket/websocket?user_id=#{@user_id_1}"]
+  # @client_config_2 [uri: "ws://localhost:4000/socket/websocket?user_id=#{@user_id_2}"]
 
   def at_battle() do
     {:ok, pid_1} = GameClient.start_link(@client_config_1, PLAYER1)
