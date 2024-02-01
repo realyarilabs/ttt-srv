@@ -48,6 +48,14 @@ if config_env() == :prod do
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: port
     ],
+    check_origin: [
+      "//127.0.0.1",
+      "//localhost",
+      "//*.mydharma.network",
+      "//*.surge.sh",
+      "//*.netlify.app",
+      "//sei-game.netlify.app"
+    ],
     secret_key_base: secret_key_base
 
   # ## SSL Support
