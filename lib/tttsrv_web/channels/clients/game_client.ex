@@ -1,4 +1,4 @@
-defmodule TttsrvWeb.Clients.BattleClient do
+defmodule TttsrvWeb.Clients.GameClient do
   @moduledoc """
   A simple Client connecting to the Lobby
 
@@ -7,7 +7,7 @@ defmodule TttsrvWeb.Clients.BattleClient do
   use Slipstream
   require Logger
 
-  @topic "games:battles:1"
+  @topic "games:match:1"
 
   def start_link(config, name \\ nil) do
     Slipstream.start_link(__MODULE__, config, name: name)
