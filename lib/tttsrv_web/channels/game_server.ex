@@ -87,7 +87,7 @@ defmodule TttsrvWeb.GameServer do
           ["", "", ""]
         ],
         status: "started",
-        current_player: [state.players["X"], state.players["O"]] |> Enum.random() |> hd(),
+        current_player: state.players["X"],
         winner: nil
     }
   end
@@ -107,7 +107,7 @@ defmodule TttsrvWeb.GameServer do
         new_state = %{
           state
           | players: Map.put(state.players, "O", user_id),
-            current_player: [state.players["X"], user_id] |> Enum.random() |> hd(),
+            current_player: state.players["X"],
             status: "started"
         }
 
