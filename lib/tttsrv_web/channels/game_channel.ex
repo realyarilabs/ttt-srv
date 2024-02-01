@@ -1,10 +1,10 @@
-defmodule TttsrvWeb.BattlesChannel do
+defmodule TttsrvWeb.GameChannel do
   alias TttsrvWeb.GameServer
   alias TttsrvWeb.GameManager
   use Phoenix.Channel
   require Logger
 
-  def join("games:battles:" <> game_id, _params, socket) do
+  def join("games:match:" <> game_id, _params, socket) do
     GameManager.start_game(game_id)
     Logger.info("Joining game #{game_id}")
 
