@@ -55,7 +55,11 @@ defmodule TttsrvWeb.Helpers do
     if winning_symbol do
       %{state | winner: winning_symbol, status: "game_over"}
     else
-      state
+      if Enum.all?(board, fn row -> Enum.all?(row, fn cell -> cell != "" end) end) do
+        %{state | winner: "draw", status: "game_over"}
+      else
+        state
+      end
     end
   end
 end

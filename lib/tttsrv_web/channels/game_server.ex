@@ -22,13 +22,8 @@ defmodule TttsrvWeb.GameServer do
   end
 
   def handle_call({:add_player, user_id}, _from, state) do
-    case add_player_to_game(state, user_id) do
-      {:ok, new_state} ->
-        {:reply, {:ok, new_state}, new_state}
-
-      {:error, reason} ->
-        {:reply, {:error, reason}, state}
-    end
+    new_state = add_player_to_game(state, user_id)
+    {:reply, {:ok, new_state}, new_state}
   end
 
   def handle_call({:move, user_id, x, y}, _from, state) do
@@ -75,24 +70,19 @@ defmodule TttsrvWeb.GameServer do
   def add_player_to_game(state, user_id) do
     cond do
       state.players["X"] == nil ->
-        new_state = %{state | players: Map.put(state.players, "X", user_id)}
-        {:ok, new_state}
+        %{state | players: Map.put(state.players, "X", user_id)}
 
       state.players["O"] == nil and state.players["X"] !== user_id ->
         new_state = %{state | players: Map.put(state.players, "O", user_id)}
 
-        {:ok,
-         %{
-           new_state
-           | current_player: state.players["X"],
-             status: "started"
-         }}
-
-      state.players["X"] == user_id or state.players["O"] == user_id ->
-        {:ok, state}
+        %{
+          new_state
+          | current_player: state.players["X"],
+            status: "started"
+        }
 
       true ->
-        {:error, :game_full}
+        state
     end
   end
 
