@@ -28,11 +28,11 @@ defmodule TttsrvWeb.GameChannel do
     user_id = socket.assigns.user_id
 
     case GameServer.move(game_id, user_id, x, y) do
-      {:ok, updated_game_state} ->
+      {:ok, updated_game_state, symbol} ->
         Logger.info(inspect(updated_game_state), pretty: true)
 
         send(self(), {:game_state_updated, game_id})
-
+        broadcast(socket, "move_made", %{x: x, y: y, symbol: symbol})
         {:noreply, assign(socket, :game, updated_game_state)}
 
       {:error, reason} ->

@@ -28,8 +28,8 @@ defmodule TttsrvWeb.GameServer do
 
   def handle_call({:move, user_id, x, y}, _from, state) do
     case move_in_board(state, user_id, x, y) do
-      {:ok, new_state} ->
-        {:reply, {:ok, new_state}, new_state}
+      {:ok, new_state, symbol} ->
+        {:reply, {:ok, new_state, symbol}, new_state}
 
       {:error, reason} ->
         {:reply, {:error, reason}, state}
@@ -100,7 +100,7 @@ defmodule TttsrvWeb.GameServer do
         |> Helpers.next_player()
         |> Helpers.check_end_game()
 
-      {:ok, updated_state}
+      {:ok, updated_state, symbol}
     else
       {:error, reason} ->
         {:error, reason}
