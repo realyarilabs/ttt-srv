@@ -4,13 +4,13 @@ defmodule TttsrvWeb.GameChannel do
   use Phoenix.Channel
   require Logger
 
-  def join("games:match:" <> game_id, _params, socket) do
+  def join("games:match:" <> game_id, params, socket) do
     GameManager.start_game(game_id)
     Logger.info("Joining game #{game_id}")
 
     name =
-      if :name in socket.assigns do
-        socket.assigns.name
+      if :name in params do
+        params.name
       else
         nil
       end
