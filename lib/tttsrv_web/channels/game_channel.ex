@@ -8,7 +8,14 @@ defmodule TttsrvWeb.GameChannel do
     GameManager.start_game(game_id)
     Logger.info("Joining game #{game_id}")
 
-    case GameServer.add_player(game_id, socket.assigns.user_id) do
+    name =
+      if :name in socket.assigns do
+        socket.assigns.name
+      else
+        nil
+      end
+
+    case GameServer.add_player(game_id, socket.assigns.user_id, name) do
       {:ok, updated_game_state} ->
         Logger.info(inspect(updated_game_state), pretty: true)
 

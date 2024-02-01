@@ -5,8 +5,8 @@ defmodule TttsrvWeb.GameServer do
 
   def init(state), do: {:ok, state}
 
-  def add_player(game_id, player) do
-    GenServer.call(via_tuple(game_id), {:add_player, player})
+  def add_player(game_id, user_id, name \\ nil) do
+    GenServer.call(via_tuple(game_id), {:add_player, user_id, name})
   end
 
   def move(game_id, player, x, y) do
@@ -21,8 +21,8 @@ defmodule TttsrvWeb.GameServer do
     GenServer.call(via_tuple(game_id), {:surrender, user_id})
   end
 
-  def handle_call({:add_player, user_id}, _from, state) do
-    new_state = add_player_to_game(state, user_id)
+  def handle_call({:add_player, user_id, name}, _from, state) do
+    new_state = add_player_to_game(state, user_id, name)
     {:reply, {:ok, new_state}, new_state}
   end
 
@@ -51,6 +51,8 @@ defmodule TttsrvWeb.GameServer do
 
   def initial_game_state(game_id) do
     %{
+      player_1: nil,
+      player_2: nil,
       game_id: game_id,
       board: [
         ["", "", ""],
@@ -67,19 +69,30 @@ defmodule TttsrvWeb.GameServer do
     }
   end
 
-  def add_player_to_game(state, user_id) do
+  def add_player_to_game(state, user_id, name \\ nil) do
     cond do
       state.players["X"] == nil ->
-        %{state | players: Map.put(state.players, "X", user_id)}
+        new_state = %{state | players: Map.put(state.players, "X", user_id)}
+
+        if name do
+          %{new_state | player_1: name}
+        else
+          %{new_state | player_1: "Player 1"}
+        end
 
       state.players["O"] == nil and state.players["X"] !== user_id ->
-        new_state = %{state | players: Map.put(state.players, "O", user_id)}
-
-        %{
-          new_state
-          | current_player: state.players["X"],
+        new_state = %{
+          state
+          | players: Map.put(state.players, "O", user_id),
+            current_player: state.players["X"],
             status: "started"
         }
+
+        if name do
+          %{new_state | player_2: name}
+        else
+          %{new_state | player_2: "Player 2"}
+        end
 
       true ->
         state
