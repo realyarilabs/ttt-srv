@@ -8,12 +8,7 @@ defmodule TttsrvWeb.GameChannel do
     GameManager.start_game(game_id)
     Logger.info("Joining game #{game_id}")
 
-    name =
-      if :name in params do
-        params.name
-      else
-        nil
-      end
+    name = Map.get(params, "name")
 
     case GameServer.add_player(game_id, socket.assigns.user_id, name) do
       {:ok, updated_game_state} ->
