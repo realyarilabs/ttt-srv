@@ -13,8 +13,11 @@ config :tttsrv, TttsrvWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "FZYEpzfUcgLfP+7PZsR+y99DQj6fwSWPBkf9N77i0o30saYANKBoRE6q0mJchQ/y",
-  watchers: []
+  secret_key_base: "WTWxBL3Z6cUizGao7wjuf35f7Kvaz0Gjf4+X9EW0zey9fJUlS9S8LpANAT5gTxg6",
+  watchers: [
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
+  ]
 
 # ## SSL Support
 #
@@ -39,6 +42,16 @@ config :tttsrv, TttsrvWeb.Endpoint,
 # configured to run both http and https servers on
 # different ports.
 
+# Watch static and templates for browser reloading.
+config :tttsrv, TttsrvWeb.Endpoint,
+  live_reload: [
+    patterns: [
+      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/gettext/.*(po)$",
+      ~r"lib/tttsrv_web/(controllers|live|components)/.*(ex|heex)$"
+    ]
+  ]
+
 # Enable dev routes for dashboard and mailbox
 config :tttsrv, dev_routes: true
 
@@ -51,3 +64,9 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Include HEEx debug annotations as HTML comments in rendered markup
+config :phoenix_live_view, :debug_heex_annotations, true
+
+# Disable swoosh api client as it is only required for production adapters.
+config :swoosh, :api_client, false

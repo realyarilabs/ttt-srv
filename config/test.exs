@@ -4,8 +4,14 @@ import Config
 # you can enable the server option below.
 config :tttsrv, TttsrvWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "kx7HXepkUxB8rTrBfPkKT940gALTIkWJbGiY7dslSPrTH0tCCSBkwV0AKqJYALrk",
+  secret_key_base: "G4To+lb6DASzHgbQOLvb7TVDcCG4aSUbvdzqQ51G/DqivUwO7rR8lMuyoB++XieJ",
   server: false
+
+# In test we don't send emails.
+config :tttsrv, Tttsrv.Mailer, adapter: Swoosh.Adapters.Test
+
+# Disable swoosh api client as it is only required for production adapters.
+config :swoosh, :api_client, false
 
 # Print only warnings and errors during test
 config :logger, level: :warning

@@ -11,9 +11,10 @@ defmodule Tttsrv.Application do
       TttsrvWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:tttsrv, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Tttsrv.PubSub},
+      # Start the Finch HTTP client for sending emails
+      {Finch, name: Tttsrv.Finch},
       # Start a worker by calling: Tttsrv.Worker.start_link(arg)
       # {Tttsrv.Worker, arg},
-      # Start to serve requests, typically the last entry
 
       # Starts the Registry to register the game servers for the TicTacToe game
 
@@ -22,6 +23,7 @@ defmodule Tttsrv.Application do
       # starts the game manager that orchestrates the gameservers
 
       TttsrvWeb.GameManager,
+      # Start to serve requests, typically the last entry
       TttsrvWeb.Endpoint
     ]
 

@@ -7,15 +7,14 @@ defmodule TttsrvWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_tttsrv_key",
-    signing_salt: "bZLolm61",
+    signing_salt: "ArltowqI",
     same_site: "Lax"
   ]
-
-  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
-
   socket "/socket", TttsrvWeb.UserSocket,
     websocket: true,
     longpoll: false
+
+  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -30,6 +29,8 @@ defmodule TttsrvWeb.Endpoint do
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
+    socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
+    plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
   end
 
