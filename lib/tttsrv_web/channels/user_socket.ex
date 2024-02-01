@@ -1,7 +1,7 @@
 defmodule TttsrvWeb.UserSocket do
   use Phoenix.Socket
 
-  channel "games:battles:*", TttsrvWeb.BattlesChannel
+  channel "games:match:*", TttsrvWeb.GameChannel
   # A Socket handler
   #
   # It's possible to control the websocket connection and
