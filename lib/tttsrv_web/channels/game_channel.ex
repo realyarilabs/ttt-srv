@@ -49,6 +49,42 @@ defmodule TttsrvWeb.GameChannel do
     end
   end
 
+  def handle_in("surrender", _payload, socket) do
+    game_id = socket.assigns.game_id
+    user_id = socket.assigns.user_id
+
+    case GameServer.surrender(game_id, user_id) do
+      {:ok, updated_game_state} ->
+        Logger.info(inspect(updated_game_state), pretty: true)
+
+        send(self(), {:game_state_updated, game_id})
+        {:noreply, assign(socket, :game, updated_game_state)}
+
+      {:error, reason} ->
+        Logger.info(inspect(reason), pretty: true)
+
+        {:reply, {:error, reason}, socket}
+    end
+  end
+
+  def handle_in("play_again", _payload, socket) do
+    game_id = socket.assigns.game_id
+
+    case GameServer.play_again(game_id) do
+      {:ok, updated_game_state} ->
+        Logger.info(inspect(updated_game_state), pretty: true)
+
+        send(self(), {:game_state_updated, game_id})
+        broadcast(socket, "play_again", %{game_state: updated_game_state})
+        {:noreply, assign(socket, :game, updated_game_state)}
+
+      {:error, reason} ->
+        Logger.info(inspect(reason), pretty: true)
+
+        {:reply, {:error, reason}, socket}
+    end
+  end
+
   def handle_in("request_game_state", _payload, socket) do
     game_id = socket.assigns.game_id
     game_state = GameServer.get_state(game_id)

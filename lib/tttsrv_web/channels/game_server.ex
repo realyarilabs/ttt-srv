@@ -21,6 +21,10 @@ defmodule TttsrvWeb.GameServer do
     GenServer.call(via_tuple(game_id), {:surrender, user_id})
   end
 
+  def play_again(game_id) do
+    GenServer.call(via_tuple(game_id), :play_again)
+  end
+
   def handle_call({:add_player, user_id, name}, _from, state) do
     new_state = add_player_to_game(state, user_id, name)
     {:reply, {:ok, new_state}, new_state}
@@ -49,6 +53,11 @@ defmodule TttsrvWeb.GameServer do
     end
   end
 
+  def handle_call(:play_again, _from, state) do
+    state = play_again_game_state(state)
+    {:reply, {:ok, state}, state}
+  end
+
   def initial_game_state(game_id) do
     %{
       player_1: nil,
@@ -66,6 +75,20 @@ defmodule TttsrvWeb.GameServer do
       },
       current_player: nil,
       winner: nil
+    }
+  end
+
+  def play_again_game_state(state) do
+    %{
+      state
+      | board: [
+          ["", "", ""],
+          ["", "", ""],
+          ["", "", ""]
+        ],
+        status: "started",
+        current_player: state.players["X"],
+        winner: nil
     }
   end
 

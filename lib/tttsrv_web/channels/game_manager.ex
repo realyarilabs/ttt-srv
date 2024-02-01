@@ -30,16 +30,6 @@ defmodule TttsrvWeb.GameManager do
     end
   end
 
-  def handle_cast({:game_over, game_id}, state) do
-    Process.send_after(self(), {:terminate_game, game_id}, 60_000)
-    {:noreply, state}
-  end
-
-  def handle_info({:terminate_game, game_id}, state) do
-    GenServer.stop(via_tuple(game_id))
-    {:noreply, state}
-  end
-
   # Aux functions
   defp via_tuple(game_id) do
     {:via, Registry, {GameRegistry, game_id}}
