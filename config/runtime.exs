@@ -54,7 +54,7 @@ if config_env() == :prod do
       "//*.mydharma.network",
       "//*.surge.sh",
       "//*.netlify.app",
-      "//sei-game.netlify.app"
+      "//*.yari.school"
     ],
     secret_key_base: secret_key_base
 
