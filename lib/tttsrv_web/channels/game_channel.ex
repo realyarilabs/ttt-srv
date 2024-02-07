@@ -25,11 +25,13 @@ defmodule TttsrvWeb.GameChannel do
     end
   end
 
+
   def handle_in("broadcast_message", %{"message" => message}, socket) do
     user_id = socket.assigns.user_id
     broadcast(socket, "game_message", %{message: message, sender_id: user_id})
     {:noreply, socket}
   end
+
 
   def handle_in("move", %{"x" => x, "y" => y}, socket) do
     game_id = socket.assigns.game_id

@@ -21,10 +21,12 @@ defmodule TttsrvWeb.Clients.Simulation do
     [pid_1, pid_2]
   end
 
+
   def simulate_chat do
     pids = at_battle()
 
     :timer.sleep(500)
+
 
     GameClient.broadcast_message(PLAYER1, "Hello, World!")
 
@@ -32,6 +34,7 @@ defmodule TttsrvWeb.Clients.Simulation do
     # kill the process
     pids |> Enum.each(fn pid -> Process.exit(pid, :normal) end)
   end
+
 
   def simulate_battle do
     pids = at_battle()
