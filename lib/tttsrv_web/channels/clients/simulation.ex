@@ -40,8 +40,10 @@ defmodule TttsrvWeb.Clients.Simulation do
   * Kill the process after a short delay (like we do in simulate_battle).
   * Handle receiving broadcast messages in handle_message/4.
 
-  Enhance the Simulation:
-  * Simulate sending a broadcast message from one client.
+  * Go to Challenge SEI 3 (game_client.ex) in the GameClient module to complete the handle_message/4 function.
+
+  * Run "mix phx.server" in your console to start the server.
+  * In another console, run "iex -S mix" and call TttsrvWeb.Clients.Simulation.simulate_chat/0 to test the broadcast message feature.
   * Verify that both clients receive the message.
   """
 
