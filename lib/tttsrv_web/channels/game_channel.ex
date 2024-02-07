@@ -25,6 +25,35 @@ defmodule TttsrvWeb.GameChannel do
     end
   end
 
+  @doc """
+  Challenge SEI 1:
+  ## Instructions for Participants:
+
+  ### Objective:
+  Your goal is to enable real-time communication in our Tic Tac Toe game.
+  When a player sends a message, we want this message to be seen by all players
+  in the same game instantly.
+
+  ### Task: Complete the handle_in/3 function in the GameChannel module to broadcast
+  a message received from one client to all clients connected to the same game channel.
+
+  ###  Steps:
+  * Create a handle_in function that handles the "broadcast_message" event.
+  * Use the broadcast function to send the received message to all clients. The broadcast function takes three arguments: the socket, a topic as a string (in this case, use "game_message"), and the message payload.
+  * The message payload consists of a map with the key "message" and its value.
+  * The payload should be a map with the key "message" and its value being the message received from the client and a key "sender_id" with the id of the user as the value (you can use socket.assigns.user_id).
+
+
+
+  ### Learning Outcome:
+  By completing this challenge, participants will learn how to use Phoenix Channels
+  to facilitate real-time communication between the server and clients.
+  They'll understand the basics of message broadcasting in a WebSocket context,
+  which is a fundamental concept in developing real-time web applications.
+
+  ### Next challenge in file simulating.ex, or serch for "Challenge SEI 2"
+  """
+
   def handle_in("move", %{"x" => x, "y" => y}, socket) do
     game_id = socket.assigns.game_id
     user_id = socket.assigns.user_id
