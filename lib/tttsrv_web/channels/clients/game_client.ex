@@ -38,6 +38,18 @@ defmodule TttsrvWeb.Clients.GameClient do
   end
 
   @impl Slipstream
+  def handle_message(
+        @topic,
+        "game_message",
+        %{"message" => message, "sender_id" => sender_id},
+        socket
+      ) do
+    Logger.info("Game Message Received: #{inspect(message)} from User #{sender_id}")
+
+    {:ok, socket}
+  end
+
+  @impl Slipstream
   def handle_message(@topic, event, payload, socket) do
     Logger.info("Event: #{inspect(event)} Payload: #{inspect(payload, pretty: true)}")
 

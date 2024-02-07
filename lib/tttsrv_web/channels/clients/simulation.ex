@@ -21,22 +21,17 @@ defmodule TttsrvWeb.Clients.Simulation do
     [pid_1, pid_2]
   end
 
-  @doc """
-  Expanding the Simulation for Broadcast Messages
+  def simulate_chat do
+    pids = at_battle()
 
-  Objective:
-  Test the broadcast message feature by simulating a scenario where one client
-  sends a message, and both clients verify receiving this message.
+    :timer.sleep(500)
 
-  Steps to Add Broadcast Message Testing:
-  * Update the GameClient Module:
-  * Add a function to send a broadcast message.
-  * Handle receiving broadcast messages in handle_message/4.
+    GameClient.broadcast_message(PLAYER1, "Hello, World!")
 
-  Enhance the Simulation:
-  * Simulate sending a broadcast message from one client.
-  * Verify that both clients receive the message.
-  """
+    :timer.sleep(500)
+    # kill the process
+    pids |> Enum.each(fn pid -> Process.exit(pid, :normal) end)
+  end
 
   def simulate_battle do
     pids = at_battle()
@@ -51,6 +46,6 @@ defmodule TttsrvWeb.Clients.Simulation do
 
     :timer.sleep(500)
     # kill the process
-    pids |> Enum.each(fn pid -> Process.exit(pid, :kill) end)
+    pids |> Enum.each(fn pid -> Process.exit(pid, :normal) end)
   end
 end
