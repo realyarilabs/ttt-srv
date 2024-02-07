@@ -22,19 +22,28 @@ defmodule TttsrvWeb.Clients.Simulation do
   end
 
   @doc """
+  Challenge SEI 2:
+
   Expanding the Simulation for Broadcast Messages
 
   Objective:
   Test the broadcast message feature by simulating a scenario where one client
   sends a message, and both clients verify receiving this message.
 
+  Before starting this Challenge Analyze the function simulate_battle/0
+    in the Simulation module to get a better understanding of the simulation.
+
   Steps to Add Broadcast Message Testing:
-  * Update the GameClient Module:
-  * Add a function to send a broadcast message.
+  * Create a function simulate_chat/0 in the Simulation module.
+  * Start by starting the pids of both clients.
+  * Use GameClient Module that has the function broadcast_message/2 to send a message from one client.
+  * Kill the process after a short delay (like we do in simulate_battle).
   * Handle receiving broadcast messages in handle_message/4.
 
-  Enhance the Simulation:
-  * Simulate sending a broadcast message from one client.
+  * Go to Challenge SEI 3 (game_client.ex) in the GameClient module to complete the handle_message/4 function.
+
+  * Run "mix phx.server" in your console to start the server.
+  * In another console, run "iex -S mix" and call TttsrvWeb.Clients.Simulation.simulate_chat/0 to test the broadcast message feature.
   * Verify that both clients receive the message.
   """
 
@@ -51,6 +60,6 @@ defmodule TttsrvWeb.Clients.Simulation do
 
     :timer.sleep(500)
     # kill the process
-    pids |> Enum.each(fn pid -> Process.exit(pid, :kill) end)
+    pids |> Enum.each(fn pid -> Process.exit(pid, :normal) end)
   end
 end
