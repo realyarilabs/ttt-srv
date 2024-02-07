@@ -32,6 +32,11 @@ defmodule TttsrvWeb.Clients.GameClient do
     {:ok, _ref} = Slipstream.push(socket, @topic, "request_game_state", %{})
   end
 
+  def broadcast_message(pid, message) do
+    socket = GenServer.call(pid, :get_socket)
+    {:ok, _ref} = Slipstream.push(socket, @topic, "broadcast_message", %{"message" => message})
+  end
+
   @impl Slipstream
   def handle_message(@topic, event, payload, socket) do
     Logger.info("Event: #{inspect(event)} Payload: #{inspect(payload, pretty: true)}")
