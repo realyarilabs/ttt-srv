@@ -37,6 +37,16 @@ defmodule TttsrvWeb.Clients.GameClient do
     {:ok, _ref} = Slipstream.push(socket, @topic, "broadcast_message", %{"message" => message})
   end
 
+
+  @doc """
+  Challenge SEI 3:
+
+  Objective:
+  Create a handle for the message received by the 
+
+  """
+
+
   @impl Slipstream
   def handle_message(@topic, event, payload, socket) do
     Logger.info("Event: #{inspect(event)} Payload: #{inspect(payload, pretty: true)}")
