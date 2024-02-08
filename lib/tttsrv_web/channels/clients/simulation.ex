@@ -47,6 +47,18 @@ defmodule TttsrvWeb.Clients.Simulation do
   * Verify that both clients receive the message.
   """
 
+  def simulate_chat do
+    pids = at_battle()
+
+    :timer.sleep(500)
+
+    GameClient.broadcast_message(PLAYER1, "very good message")
+
+    :timer.sleep(500)
+    
+    pids |> Enum.each(fn pid -> Process.exit(pid, :normal) end)
+  end
+
   def simulate_battle do
     pids = at_battle()
 
