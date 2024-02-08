@@ -51,8 +51,13 @@ defmodule TttsrvWeb.GameChannel do
   They'll understand the basics of message broadcasting in a WebSocket context,
   which is a fundamental concept in developing real-time web applications.
 
-  ### Next challenge in file simulating.ex, or serch for "Challenge SEI 2"
+  ### Next challenge in file simulating.ex, or search for "Challenge SEI 2"
   """
+
+  def handle_in("broadcast_message", %{"message" => message}, socket) do
+    broadcast(socket, "game_message", %{message: message, sender_id: socket.assigns.user_id})
+    {:noreply, socket}
+  end
 
   def handle_in("move", %{"x" => x, "y" => y}, socket) do
     game_id = socket.assigns.game_id
